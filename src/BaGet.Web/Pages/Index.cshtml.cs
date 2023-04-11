@@ -1,12 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 using BaGet.Core;
 using BaGet.Protocol.Models;
+using BaGet.Web.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace BaGet.Web
 {
@@ -42,7 +45,10 @@ namespace BaGet.Web
         public async Task<IActionResult> OnGetAsync(CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid) return BadRequest();
-
+            var sp=Request.HttpContext.RequestServices;
+            var option = sp.GetService<IOptions<BaGetOptions>>();
+            var errorResult = AuthHelper.getAuthenticationError(option, Request.Headers, Response);
+            if (errorResult != null) return errorResult;
             var packageType = PackageType == "any" ? null : PackageType;
             var framework = Framework == "any" ? null : Framework;
 

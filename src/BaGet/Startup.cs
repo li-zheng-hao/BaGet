@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-
+using BaGet.Core.Middleware;
 namespace BaGet
 {
     public class Startup
@@ -57,7 +57,6 @@ namespace BaGet
         private void ConfigureBaGetApplication(BaGetApplication app)
         {
             // Add database providers.
-            app.AddAzureTableDatabase();
             app.AddMySqlDatabase();
             app.AddPostgreSqlDatabase();
             app.AddSqliteDatabase();
@@ -67,11 +66,8 @@ namespace BaGet
             app.AddFileStorage();
             app.AddAliyunOssStorage();
             app.AddAwsS3Storage();
-            app.AddAzureBlobStorage();
             app.AddGoogleCloudStorage();
 
-            // Add search providers.
-            app.AddAzureSearch();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -84,7 +80,7 @@ namespace BaGet
                 app.UseDeveloperExceptionPage();
                 app.UseStatusCodePages();
             }
-
+            app.UseNugetBehaviorMiddleware();
             app.UseForwardedHeaders();
             app.UsePathBase(options.PathBase);
 

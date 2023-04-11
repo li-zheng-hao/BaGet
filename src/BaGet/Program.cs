@@ -76,7 +76,6 @@ namespace BaGet
                         // be enforced by a reverse proxy server, like IIS.
                         options.Limits.MaxRequestBodySize = null;
                     });
-
                     web.UseStartup<Startup>();
                 });
         }

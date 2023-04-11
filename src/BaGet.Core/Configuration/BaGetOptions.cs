@@ -4,6 +4,10 @@ namespace BaGet.Core
 {
     public class BaGetOptions
     {
+        public string AuthUsername { get; set; }
+        public string AuthPassword { get; set; }
+
+
         /// <summary>
         /// The API Key required to authenticate package
         /// operations. If empty, package operations do not require authentication.
