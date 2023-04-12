@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using BaGet.Core;
 using BaGet.Web;
@@ -19,7 +21,7 @@ namespace BaGet
             {
                 return;
             }
-
+            CerMaker.CreateIfNotExist();
             var app = new CommandLineApplication
             {
                 Name = "baget",
@@ -75,9 +77,22 @@ namespace BaGet
                         // Remove the upload limit from Kestrel. If needed, an upload limit can
                         // be enforced by a reverse proxy server, like IIS.
                         options.Limits.MaxRequestBodySize = null;
+                        // options.ConfigureHttpsDefaults(it =>
+                        // {
+                        //     it.ServerCertificate = new X509Certificate2(CerMaker.CER_FILE, CerMaker.PASSWD);
+                        // });
+                        // options.ListenAnyIP(18443, options =>
+                        // {
+                        //     options.UseHttps(it =>
+                        //     {
+                        //         it.ServerCertificate = new X509Certificate2(CerMaker.CER_FILE, CerMaker.PASSWD);
+                        //     });
+                        // });
                     });
                     web.UseStartup<Startup>();
                 });
         }
+
+
     }
 }
