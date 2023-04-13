@@ -18,8 +18,6 @@ namespace BaGet
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            CerMaker.CER_FILE=Configuration["Kestrel:Endpoints:Https:Certificate:Path"];
-            CerMaker.PASSWD=Configuration["Kestrel:Endpoints:Https:Certificate:Password"];
         }
 
         private IConfiguration Configuration { get; }
